@@ -1,23 +1,22 @@
 import { useParams } from "react-router-dom"
-import { useBlogInDetail } from "../hooks"
 import { Nav } from "../components/Nav"
 import { Avatar } from "./Blogs"
-import Skeleton from "../components/Skeleton"
+import { useRecoilValue } from "recoil"
+import { blogSelectorFamily } from "../strore/atom/BlogSelector"
 
 export default function BlogInDetail() {
     const id = useParams().id
-  const {blog, loading} = useBlogInDetail(id)
-  
-    if(loading){
-        return <div>
-            <Nav name={blog.author.name}/>
-            <Skeleton/>
-            </div>
-    }
+    // const {blog, loading} = useBlogInDetail(id)
+    
+    const blog = useRecoilValue(blogSelectorFamily(id))
 
+
+
+  
+   
   return (
     <div>
-        <Nav name={blog.author.name}/>
+        <Nav />
         <div className="grid grid-cols-12">
             <div className="col-span-8">
                 <div className="p-10 flex flex-col justify-center">

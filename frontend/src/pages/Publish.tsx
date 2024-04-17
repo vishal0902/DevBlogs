@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { Nav } from "../components/Nav";
-import { useBlogs } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
+
 export const Publish = () => {
-  const { user } = useBlogs();
 
   return (
     <div>
       <div>
-        <Nav name={user.name} />
+        <Nav />
       </div>
       <div>
         <BlogForm />
@@ -25,6 +24,7 @@ export const BlogForm = () => {
   const [content, setContent] = useState("");
 
     const navigate = useNavigate()
+
 
   return (
     <div className="mt-10">

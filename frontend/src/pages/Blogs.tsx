@@ -5,22 +5,26 @@ import { useBlogs } from "../hooks";
 import Skeleton from "../components/Skeleton";
 
 export const Blogs = () => {
-  const { user, blogs, loading } = useBlogs();
+  
+  // const {user, blogs} = useRecoilValue(allBlogsSelector)
+ const { blogs, loading} = useBlogs()
 
-  if (loading) {
-    return <div>
-                <Nav name={user.name} />
-                <Skeleton blogPreview={true}/>
-                <Skeleton blogPreview={true}/>
-                <Skeleton blogPreview={true}/>
-                <Skeleton blogPreview={true}/>
-                <Skeleton blogPreview={true}/>
-            </div>;
-  }
+//  const [userData, setUserData] = useRecoilState(userDataAtom)
+//  setUserData({...user})
+
+ if(loading) {
+
+    return (
+      <div>
+        <Nav  />
+        <Skeleton  blogPreview={true} />
+      </div>
+    )
+ }
 
   return (
     <div>
-      <Nav name={user.name} />
+      <Nav />
       {blogs.map((blog: any) => {
         return (
           <BlogCard

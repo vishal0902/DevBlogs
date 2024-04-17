@@ -1,5 +1,8 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { BACKEND_URL } from "../config";
+import { useRecoilState } from "recoil";
+import { userDataAtom } from "../strore/atom/BlogSelector";
 
 export interface Blog {
     id: number
@@ -26,7 +29,7 @@ export const useBlogInDetail = (id: any) => {
 
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8787/api/v1/blog/${id}`, {
+        axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
             headers: { Authorization: localStorage.getItem("jwt") }}).then((res) => {
             setBlog(res.data.blog)
             setLoading(false)
@@ -37,25 +40,23 @@ export const useBlogInDetail = (id: any) => {
 }
 
 interface userType {
-    name: string,
-    blogs: any
+    name: string
 }
 
 export const useBlogs = () => {
-    const [user, setUser] = useState<userType>({
-        name: "",
-        blogs: []
-    });
+    
+    const [userName, setUserName]=  useRecoilState(userDataAtom)
+    
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true)
 
 
   
     const fetchBlogs = async () => {
-      const response = await axios.get("http://127.0.0.1:8787/api/v1/blog/bulk", {
+      const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
         headers: { Authorization: localStorage.getItem("jwt") },
       });
-      setUser(response.data.user)
+      setUserName(response.data.user.name)
       setBlogs(response.data.blogs);
       setLoading(false)
     };
@@ -64,5 +65,5 @@ export const useBlogs = () => {
       fetchBlogs();
     }, []);
   
-    return { user, blogs, loading };
+    return { blogs, loading };
   };

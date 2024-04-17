@@ -1,34 +1,15 @@
+import { Nav } from "./Nav"
+
 export default function Skeleton({blogPreview}:{blogPreview?: boolean}) {
   
     if(blogPreview){
                 return (
                 <div>
-            
-            <div className="flex justify-center">
-                <div className=" max-w-lg p-6 bg-white border-b border-gray-200 ">
-                    <div className="flex space-x-1 mb-2 min-w-[500px] ">
-                        <div className="h-8 bg-gray-200 rounded-full  w-8"></div>
-            
-                        <div className="flex flex-col justify-center">
-            
-                        <div className="h-8 bg-gray-200 rounded-full  w-20 mb-4"></div>
-                        </div>
-            
-                        <div className="h-8 bg-gray-200 rounded-full  w-20 mb-4"></div>
-            
-                    </div>
-                    <div className="h-8 bg-gray-200 rounded-full  max-w-[330px] mb-2.5"></div>
-            
-                    <div>
-                    <div className="h-2 bg-gray-200 rounded-full  max-w-[330px] mb-2.5"></div>
-            
-                    </div>
-                    <div className="mt-4">
-                    <div className="h-2 bg-gray-200 rounded-full  max-w-[100px] mt-5"></div>
-            
-                    </div>
-                </div>
-                </div>
+                    <BlogPreviewSekleton />
+                    <BlogPreviewSekleton />
+                    <BlogPreviewSekleton />
+                    <BlogPreviewSekleton />
+                    <BlogPreviewSekleton />
                     
             
             
@@ -42,6 +23,8 @@ export default function Skeleton({blogPreview}:{blogPreview?: boolean}) {
 
  return(
         <div>
+                    <Nav />
+
         <div className="grid grid-cols-12">
             <div className="col-span-8">
                 <div className="p-10 flex flex-col justify-center">
@@ -84,3 +67,32 @@ export default function Skeleton({blogPreview}:{blogPreview?: boolean}) {
 }
 
 
+export const BlogPreviewSekleton = () => {
+    return (
+        <div className="flex justify-center">
+                <div className=" max-w-lg p-6 bg-white border-b border-gray-200 ">
+                    <div className="flex space-x-1 mb-2 min-w-[500px] ">
+                        <div className="h-8 bg-gray-200 rounded-full  w-8"></div>
+            
+                        <div className="flex flex-col justify-center">
+            
+                        <div className="h-8 bg-gray-200 rounded-full  w-20 mb-4"></div>
+                        </div>
+            
+                        <div className="h-8 bg-gray-200 rounded-full  w-20 mb-4"></div>
+            
+                    </div>
+                    <div className="h-8 bg-gray-200 rounded-full  max-w-[330px] mb-2.5"></div>
+            
+                    <div>
+                    <div className="h-2 bg-gray-200 rounded-full  max-w-[330px] mb-2.5"></div>
+            
+                    </div>
+                    <div className="mt-4">
+                    <div className="h-2 bg-gray-200 rounded-full  max-w-[100px] mt-5"></div>
+            
+                    </div>
+                </div>
+                </div>
+    );
+}

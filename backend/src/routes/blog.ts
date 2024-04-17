@@ -69,8 +69,7 @@ blogRouter.get('/bulk', async(c)=>{
             id: c.get("userId")
         },
         select : {
-            name: true,
-            blogs: true
+            name: true
         }
     })
 

@@ -5,6 +5,8 @@ import { useState } from "react";
 import { SignupType } from "@vishal0902/common-app";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { useRecoilState } from "recoil";
+import { userDataAtom } from "../strore/atom/BlogSelector";
 
 interface FormType {
     type : string
@@ -18,6 +20,8 @@ export default function AuthForm({type}: FormType) {
     password: "",
   })
   
+  const [userName, setUserName] = useRecoilState(userDataAtom)
+
   const navigate = useNavigate()
 
   
@@ -27,6 +31,7 @@ export default function AuthForm({type}: FormType) {
       const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, postInput);
       console.log(response.data.jwtToken)
       localStorage.setItem("jwt", response.data.jwtToken)
+      setUserName(String(postInput.name))
       navigate("/blogs")
       
     } catch (error) {
