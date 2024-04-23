@@ -31,6 +31,7 @@ export default function AuthForm({type}: FormType) {
 
   const handleSignup = async () => {
     setLoading(true)
+    console.log(userName)
        try {
       const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, postInput);
       console.log(response.data.jwtToken)

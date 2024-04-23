@@ -98,7 +98,7 @@ export const Likes = ({ blogId }: { blogId: String | undefined }) => {
                   .delete(`${BACKEND_URL}/api/v1/blog/like/${isLiked}`, {
                     headers: { Authorization: localStorage.getItem("jwt") },
                   })
-                  .then((response) => setTrigger((prev) => !prev));
+                  .then(() => setTrigger((prev) => !prev));
               }}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -133,7 +133,7 @@ export const Likes = ({ blogId }: { blogId: String | undefined }) => {
                   { blogId },
                   { headers: { Authorization: localStorage.getItem("jwt") } }
                 )
-                .then((response) => setTrigger((prev) => !prev));
+                .then(() => setTrigger((prev) => !prev));
             }}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

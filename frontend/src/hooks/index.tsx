@@ -40,9 +40,7 @@ export const useBlogInDetail = (id: any) => {
     return {blog, loading}
 }
 
-interface userType {
-    name: string
-}
+
 
 export const useBlogs = () => {
     
@@ -62,6 +60,7 @@ export const useBlogs = () => {
           setBlogs(response.data.blogs);
           setLoading(false)
           setUserData(response.data.user.name)
+          console.log(userData)
       } catch (error) {
         navigate('/signin')
       }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { atom, selector, selectorFamily } from "recoil";
+import { atom, selectorFamily } from "recoil";
 
 // export const  blogAtomFamily = atomFamily({
 //     key: "blogSelector",
