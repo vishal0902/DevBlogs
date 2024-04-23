@@ -3,6 +3,7 @@ import { Nav } from "../components/Nav";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { ButtonLoader } from "../components/ButtonLoader";
 
 
 export const Publish = () => {
@@ -21,7 +22,8 @@ export const Publish = () => {
 
 export const BlogForm = () => {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState("")
+  const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
 
@@ -50,6 +52,7 @@ export const BlogForm = () => {
         <div className="flex justify-center">
             <div className="max-w-lg w-full">
             <button onClick={()=>{
+                setLoading(true)
                 axios.post(`${BACKEND_URL}/api/v1/blog`, {
                     title,
                     content
@@ -62,7 +65,7 @@ export const BlogForm = () => {
                     navigate(`/blog/${blogId}`)
                 })
             }} type="button" className="max-w-lg mt-5 text-white bg-green-500 hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-md text-sm px-5 py-2.5 text-center me-2 mb-2">
-                Publish
+                {loading?<div className="flex space-x-2"><div>Publish</div><ButtonLoader /></div>:<div>Publish</div>}
             </button>
             </div>
             

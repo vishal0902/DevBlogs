@@ -25,7 +25,7 @@ export default function Skeleton({blogPreview}:{blogPreview?: boolean}) {
         <div>
                     <Nav />
 
-        <div className="grid grid-cols-12">
+        <div className="grid grid-cols-12 animate-pulse">
             <div className="col-span-8">
                 <div className="p-10 flex flex-col justify-center">
                     <div className="text-5xl font-bold">
@@ -69,7 +69,7 @@ export default function Skeleton({blogPreview}:{blogPreview?: boolean}) {
 
 export const BlogPreviewSekleton = () => {
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center animate-pulse">
                 <div className=" max-w-lg p-6 bg-white border-b border-gray-200 ">
                     <div className="flex space-x-1 mb-2 min-w-[500px] ">
                         <div className="h-8 bg-gray-200 rounded-full  w-8"></div>

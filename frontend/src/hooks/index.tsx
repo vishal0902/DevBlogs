@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config";
 import { useRecoilState } from "recoil";
 import { userDataAtom } from "../strore/atom/BlogSelector";
+import { useNavigate } from "react-router-dom";
 
 export interface Blog {
     id: number
@@ -45,20 +46,25 @@ interface userType {
 
 export const useBlogs = () => {
     
-    const [userName, setUserName]=  useRecoilState(userDataAtom)
-    
+    const navigate = useNavigate()
+
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [userData, setUserData] = useRecoilState(userDataAtom)
 
 
   
     const fetchBlogs = async () => {
-      const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
-        headers: { Authorization: localStorage.getItem("jwt") },
-      });
-      setUserName(response.data.user.name)
-      setBlogs(response.data.blogs);
-      setLoading(false)
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
+            headers: { Authorization: localStorage.getItem("jwt") },
+          });
+          setBlogs(response.data.blogs);
+          setLoading(false)
+          setUserData(response.data.user.name)
+      } catch (error) {
+        navigate('/signin')
+      }
     };
   
     useEffect(() => {

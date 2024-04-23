@@ -64,13 +64,26 @@ userRouter.post("/signup", async (c) => {
       })
       if(!user) {
           c.status(403);
-          return c.json({ error: "error while signing in"});
+          return c.json({ error: "Invalid Credentials."});
       }
       const jwtToken = await sign({id: user.id}, c.env.JWT_SECRET)
       return c.json({
           jwtToken: jwtToken
       })
   
+  })
+
+  userRouter.get("/bulk", async (c)=>{
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+
+    const allusers = await prisma.user.findMany({})
+
+    return c.json({
+        users: allusers
+    })
   })
 
 export default userRouter

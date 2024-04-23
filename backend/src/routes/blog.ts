@@ -118,13 +118,25 @@ blogRouter.get('/:id', async(c)=>{
                 select:{
                     name: true
                 }
+            },
+            likes: {
+                select: {
+                    liker:{
+                        select: {
+                            name: true
+                        }
+                    }
+                }
             }
         }
     })
 
+
+    
+
     return c.json({
         message: "success",
-        blog: blog
+        blog: blog,
     })
 
 })
@@ -159,5 +171,111 @@ blogRouter.put('/', async(c)=>{
 
 })
 
+blogRouter.post("/like", async(c)=> {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+      }).$extends(withAccelerate());
 
+    const body = await c.req.json()
+    console.log(body)
+    
+    const likedBy = await prisma.like.create({
+        data: {
+            blogId: parseInt(body.blogId),
+            likerId: c.get("userId")
+        },
+        select:{
+            liker: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    })
+
+    return c.json({
+        message: "success",
+        likedBy: likedBy
+    })
+})
+
+
+
+blogRouter.delete("/like/:id", async(c)=> {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+      }).$extends(withAccelerate());
+
+    
+    
+    const likedBy = await prisma.like.delete({
+        where: {
+            id: parseInt(c.req.param("id"))
+        }       
+    })
+
+    return c.json({
+        message: "success",
+        likedBy: likedBy
+    })
+})
+
+
+blogRouter.get("/liked/:id", async(c)=> {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+      }).$extends(withAccelerate());
+
+      const blogId = c.req.param("id")
+
+    
+    const likeCount = await prisma.like.count({
+        where: {
+            blogId: parseInt(blogId)
+        }
+    })
+
+    const isLiked = await prisma.like.findFirst({
+        where:{
+            likerId: c.get("userId"),
+            blogId: parseInt(blogId)
+        },
+        select: {
+            id: true
+        }
+    })
+
+    
+
+    return c.json({
+        message: "success",
+        likeCount: likeCount,
+        isLiked: isLiked?.id ? isLiked.id : ""
+    })
+})
+
+
+
+blogRouter.delete("/:id", async (c)=>{
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+      }).$extends(withAccelerate());
+
+    const blogId = c.req.param("id")
+
+ 
+    
+
+    const blog = await prisma.blog.delete({
+        where: {
+            id: parseInt(blogId)
+        }
+    })
+
+    return c.json({
+        message: "success",
+        blog: blog
+    })
+
+    })
 export default blogRouter

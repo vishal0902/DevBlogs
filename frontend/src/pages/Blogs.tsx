@@ -62,8 +62,8 @@ export const BlogCard = ({ id, author, title, content, date }: BlogCardType) => 
           </div>
           <div className="text-gray-400 ">{date.slice(0, 10)}</div>
         </div>
-        <div className="text-xl font-bold mb-2">{title.slice(0, 100)}</div>
-        <div>
+        <div className="text-2xl font-serif font-bold mb-2">{title.slice(0, 100)}</div>
+        <div className="font-sans">
           {content.length > 100 ? content.slice(0, 100) + "..." : content}
         </div>
         <div className="mt-4">

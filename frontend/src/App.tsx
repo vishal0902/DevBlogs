@@ -16,6 +16,7 @@ function App() {
       
     <BrowserRouter>
       <Routes>
+      <Route path="/" element={<Suspense fallback={<div><Skeleton blogPreview={true}/></div>}><Blogs /></Suspense>}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/signin" element={<Signin />}></Route>
         <Route path="/blogs" element={<Suspense fallback={<div><Skeleton blogPreview={true}/></div>}><Blogs /></Suspense>}></Route>
