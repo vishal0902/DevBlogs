@@ -1,6 +1,6 @@
 
 import { Nav } from "../components/Nav";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {  useMyBlogs } from "../hooks";
 import Skeleton from "../components/Skeleton";
 
