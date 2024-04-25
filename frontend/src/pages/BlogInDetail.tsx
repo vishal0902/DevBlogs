@@ -14,13 +14,13 @@ export default function BlogInDetail() {
   const blog = useRecoilValue(blogSelectorFamily(id));
 
   return (
-    <div>
+    <div className="">
       <Nav />
       <div className="grid grid-cols-12">
-        <div className="col-span-8">
+        <div className="sm:col-span-8 col-span-12">
           <div className="px-10 py-4 flex flex-col justify-center">
-            <div className="text-5xl font-bold">{blog.title}</div>
-            <div className="text-xl font-normal mt-4 mb-4">{blog.content}</div>
+            <div className="sm:text-5xl text-3xl  font-bold">{blog.title}</div>
+            <div className="sm:text-xl text-lg  font-normal mt-4 mb-4">{blog.content}</div>
             <div className="flex justify-start">
                 <Likes blogId={id} />
 
@@ -29,7 +29,7 @@ export default function BlogInDetail() {
           </div>
         </div>
         
-        <div className="col-span-4">
+        <div className="sm:col-span-4 col-span-12">
           <div className="p-10">
             <div className="text-slate-500 text-lg font-light border-b ">Author</div>
             
@@ -138,7 +138,7 @@ export const Likes = ({ blogId }: { blogId: String | undefined }) => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="w-7 h-7 cursor-pointer">
             <path
@@ -177,7 +177,7 @@ export const LikeButtonLoader = ({ isLiked }: { isLiked: string }) => {
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke="currentColor"
         className="w-7 h-7 animate-ping">
         <path
@@ -221,8 +221,8 @@ export const Comment = ({ blogId }: { blogId: string | undefined }) => {
         </div>
         <div className="flex justify-start">
           <button
-            onClick={async () => {
-              const response = await axios.post(
+            onClick={() => {
+              axios.post(
                 `${BACKEND_URL}/api/v1/comment`,
                 { content, blogId },
                 {
@@ -230,10 +230,11 @@ export const Comment = ({ blogId }: { blogId: string | undefined }) => {
                     Authorization: localStorage.getItem("jwt"),
                   },
                 }
-              );
-              setFlag(!flag);
-              setContent("");
-              console.log(response.data);
+              ).then(()=>{
+                  setFlag(!flag);
+                  setContent("");
+
+              })
             }}
             type="button"
             className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mt-2">

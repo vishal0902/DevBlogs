@@ -48,7 +48,7 @@ export const useBlogs = () => {
 
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true)
-    const [userData, setUserData] = useRecoilState(userDataAtom)
+    const [, setUserData] = useRecoilState(userDataAtom)
 
 
   
@@ -60,7 +60,35 @@ export const useBlogs = () => {
           setBlogs(response.data.blogs);
           setLoading(false)
           setUserData(response.data.user.name)
-          console.log(userData)
+      } catch (error) {
+        navigate('/signin')
+      }
+    };
+  
+    useEffect(() => {
+      fetchBlogs();
+    }, []);
+  
+    return { blogs, loading };
+  };
+
+
+  export const useMyBlogs = () => {
+    
+    const navigate = useNavigate()
+
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true)
+
+
+  
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/v1/blog/getMyBlogs`, {
+            headers: { Authorization: localStorage.getItem("jwt") },
+          });
+          setBlogs(response.data.blogs);
+          setLoading(false)
       } catch (error) {
         navigate('/signin')
       }

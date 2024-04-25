@@ -10,6 +10,10 @@ export default function Skeleton({blogPreview}:{blogPreview?: boolean}) {
                     <BlogPreviewSekleton />
                     <BlogPreviewSekleton />
                     <BlogPreviewSekleton />
+                    <BlogPreviewSekleton />
+                    <BlogPreviewSekleton />
+                    <BlogPreviewSekleton />
+                    <BlogPreviewSekleton />
                     
             
             
@@ -70,7 +74,7 @@ export default function Skeleton({blogPreview}:{blogPreview?: boolean}) {
 export const BlogPreviewSekleton = () => {
     return (
         <div className="flex justify-center animate-pulse">
-                <div className=" max-w-lg p-6 bg-white border-b border-gray-200 ">
+                <div className=" max-w-2xl p-6 bg-white border-b border-gray-200 ">
                     <div className="flex space-x-1 mb-2 min-w-[500px] ">
                         <div className="h-8 bg-gray-200 rounded-full  w-8"></div>
             

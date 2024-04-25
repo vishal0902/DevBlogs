@@ -59,6 +59,26 @@ blogRouter.post('/', async(c)=>{
 
 })
 
+blogRouter.get('/getMyBlogs', async(c)=>{
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+      }).$extends(withAccelerate());
+  
+    const data= await prisma.user.findUnique({
+        where:{
+            id: c.get("userId")
+        },
+        select : {
+            blogs: true
+        }
+    })
+    return c.json({
+        message: "success",
+        blogs: data?.blogs
+    })
+
+})
+
 blogRouter.get('/bulk', async(c)=>{
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
@@ -69,7 +89,7 @@ blogRouter.get('/bulk', async(c)=>{
             id: c.get("userId")
         },
         select : {
-            name: true
+            name: true,
         }
     })
 
@@ -201,24 +221,6 @@ blogRouter.post("/like", async(c)=> {
 
 
 
-blogRouter.delete("/like/:id", async(c)=> {
-    const prisma = new PrismaClient({
-        datasourceUrl: c.env.DATABASE_URL,
-      }).$extends(withAccelerate());
-
-    
-    
-    const likedBy = await prisma.like.delete({
-        where: {
-            id: parseInt(c.req.param("id"))
-        }       
-    })
-
-    return c.json({
-        message: "success",
-        likedBy: likedBy
-    })
-})
 
 
 blogRouter.get("/liked/:id", async(c)=> {
@@ -256,26 +258,7 @@ blogRouter.get("/liked/:id", async(c)=> {
 
 
 
-blogRouter.delete("/:id", async (c)=>{
-    const prisma = new PrismaClient({
-        datasourceUrl: c.env.DATABASE_URL,
-      }).$extends(withAccelerate());
 
-    const blogId = c.req.param("id")
 
- 
-    
 
-    const blog = await prisma.blog.delete({
-        where: {
-            id: parseInt(blogId)
-        }
-    })
-
-    return c.json({
-        message: "success",
-        blog: blog
-    })
-
-    })
 export default blogRouter

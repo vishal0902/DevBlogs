@@ -1,13 +1,14 @@
 
 import { Nav } from "../components/Nav";
-import { Link } from "react-router-dom";
-import { useBlogs } from "../hooks";
+import { Link, useNavigate } from "react-router-dom";
+import {  useMyBlogs } from "../hooks";
 import Skeleton from "../components/Skeleton";
 
-export const Blogs = () => {
+export const MyBlogs = () => {
   
   // const {user, blogs} = useRecoilValue(allBlogsSelector)
- const { blogs, loading} = useBlogs()
+ const { blogs, loading} = useMyBlogs()
+ const navigate = useNavigate()
 
 //  const [userData, setUserData] = useRecoilState(userDataAtom)
 //  setUserData({...user})
@@ -19,6 +20,15 @@ export const Blogs = () => {
         <Nav  />
         <Skeleton  blogPreview={true} />
       </div>
+    )
+ }
+
+ if(blogs.length === 0) {
+    return (
+       <div>
+        <Nav  />
+        <div className="flex p-4 mt-4 justify-center text-3xl font-semibold ">You have not written any blog yet. </div>
+       </div>
     )
  }
 
@@ -53,8 +63,8 @@ export const BlogCard = ({ id, author, title, content, date }: BlogCardType) => 
   return (
     <Link to={`/blog/${id}`}>
     <div className="flex justify-center">
-      <div className="max-w-lg  p-6 bg-white border-b border-gray-200 ">
-        <div className="flex  space-x-1 mb-2 min-w-[32rem] ">
+      <div className=" max-w-lg p-6 bg-white border-b border-gray-200 ">
+        <div className="flex space-x-1 mb-2 min-w-[32rem] ">
           <Avatar name={author} />
           <div className="pl-2">{author}</div>
           <div className="flex flex-col font-bold text-gray-400 justify-center">
