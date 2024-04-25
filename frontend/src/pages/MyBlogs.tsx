@@ -8,7 +8,7 @@ export const MyBlogs = () => {
   
   // const {user, blogs} = useRecoilValue(allBlogsSelector)
  const { blogs, loading} = useMyBlogs()
- const navigate = useNavigate()
+//  const navigate = useNavigate()
 
 //  const [userData, setUserData] = useRecoilState(userDataAtom)
 //  setUserData({...user})
