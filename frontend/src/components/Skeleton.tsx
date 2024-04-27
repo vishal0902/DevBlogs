@@ -51,7 +51,7 @@ export default function Skeleton({ blogPreview }: { blogPreview?: boolean }) {
 
 export const BlogPreviewSekleton = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-8 justify-center">
+    <div className="grid grid-cols-1 md:grid-cols-8 justify-center animate-pulse">
       <div className="md:flex hidden col-span-2"></div>
       <div className=" md:col-span-4 max-w-full  p-6 bg-white border-b border-gray-200 ">
         <div className="flex space-x-1 mb-2 ">
