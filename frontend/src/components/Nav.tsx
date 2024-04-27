@@ -19,8 +19,8 @@ export const Nav = () => {
               onClick={() => {
                 navigate("/blogs");
               }}
-              className="flex flex-col justify-center text-4xl font-bold text-slate-900 pb-2.5 cursor-pointer">
-              DevBlogs.to
+              className="flex  justify-center text-4xl font-bold text-slate-900 pb-2.5 cursor-pointer">
+              <img src="/dev.png" width={100}/> <div className="flex flex-col justify-center ml-2"> DevBlogs.to</div>
             </div>
 
             <div className="flex flex-col justify-center space-x-4">
