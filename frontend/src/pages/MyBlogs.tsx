@@ -27,7 +27,7 @@ export const MyBlogs = () => {
     return (
        <div>
         <Nav  />
-        <div className="flex p-4 mt-4 justify-center text-3xl font-semibold ">You have not written any blog yet. </div>
+        <div className=" p-4 mt-4 justify-center text-slate-800 text-xl font-semibold ">You have not written any blog yet. <Link className="cursor-pointer text-blue-700 underline font-normal hover:font-semibold" to="/blog/publish">write one.</Link> </div>
        </div>
     )
  }

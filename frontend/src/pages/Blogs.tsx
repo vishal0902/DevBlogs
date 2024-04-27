@@ -52,9 +52,11 @@ type BlogCardType = {
 export const BlogCard = ({ id, author, title, content, date }: BlogCardType) => {
   return (
     <Link to={`/blog/${id}`}>
-    <div className="flex justify-center">
-      <div className="max-w-lg  p-6 bg-white border-b border-gray-200 ">
-        <div className="flex  space-x-1 mb-2 min-w-[32rem] ">
+    <div className="grid grid-cols-1 md:grid-cols-8 justify-center">
+      <div className="md:flex hidden col-span-2"></div>
+      
+      <div className="md:col-span-4 max-w-full  p-6 bg-white border-b border-gray-200 ">
+        <div className="flex  space-x-1 mb-2 ">
           <Avatar name={author} />
           <div className="pl-2">{author}</div>
           <div className="flex flex-col font-bold text-gray-400 justify-center">
@@ -70,6 +72,8 @@ export const BlogCard = ({ id, author, title, content, date }: BlogCardType) => 
           {Math.ceil(content.length / 100)} minute(s) read
         </div>
       </div>
+      
+      <div className="md:flex hidden col-span-2"></div>
     </div>
     </Link>
   );

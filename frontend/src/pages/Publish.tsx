@@ -29,7 +29,7 @@ export const BlogForm = () => {
 
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 p-5">
       <div className="flex flex-col justify-center">
         <div className="flex justify-center">
           <input
