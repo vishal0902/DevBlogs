@@ -12,7 +12,18 @@ const app = new Hono<{
   };
 }>();
 
-app.use(cors())
+app.use(
+  '*',
+  cors({
+    origin: ['http://localhost:5173', 'https://devblogs-ten.vercel.app/'],
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  })
+)
+
+app.get('/health', (c) => c.json({ status: 'ok' }))
+
 
 app.route("api/v1/user", userRouter)
 app.route("api/v1/blog", blogRouter)
