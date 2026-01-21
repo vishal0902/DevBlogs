@@ -15,19 +15,35 @@ const app = new Hono<{
 app.use(
   '*',
   cors({
-    origin: ['http://localhost:5173', 'https://devblogs-ten.vercel.app/'],
+    origin: (origin) => {
+      if (!origin) return null;
+
+      // allow localhost
+      if (origin === 'http://localhost:5173') return origin;
+
+      // allow ALL vercel previews + prod
+      if (origin.endsWith('.vercel.app')) return origin;
+
+      return null;
+    },
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
   })
-)
+);
+
+// routes
+app.get('/health', (c) => c.json({ status: 'ok' }));
+
+
+
+
 
 app.get('/health', (c) => c.json({ status: 'ok' }))
 
 
-app.route("api/v1/user", userRouter)
-app.route("api/v1/blog", blogRouter)
-app.route("api/v1/comment", commentRouter)
+app.route("/api/v1/user", userRouter)
+app.route("/api/v1/blog", blogRouter)
+app.route("/api/v1/comment", commentRouter)
 
 
 

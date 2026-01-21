@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Blog" ALTER COLUMN "createdAt" SET DATA TYPE DATE;
