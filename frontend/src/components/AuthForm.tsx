@@ -50,6 +50,7 @@ export default function AuthForm({type}: FormType) {
     
 
   }
+  
 
   const handleSignin = async () => {
     setLoading(true)
@@ -69,6 +70,15 @@ export default function AuthForm({type}: FormType) {
 
   }
 
+  const handleSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if(event.key === 'Enter' && type == "signup") {
+      handleSignup();
+    } 
+    if(event.key === 'Enter' && type == "signin") {
+      handleSignin();
+    }
+  }
+
   return (
       <div className="flex flex-col h-screen justify-center w-full">
         <div className="flex justify-center ">
@@ -78,7 +88,7 @@ export default function AuthForm({type}: FormType) {
                 <div className="font-normal text-sm text-center text-slate-400 mt-1 mb-3" >{type=="signup"? <div>Already have an account? <Link to="/signin" className="underline">Login</Link></div>: <div>Don't have an account? <Link to="/signup" className="underline">Create an account</Link></div>} </div>
                 {type=="signup" && <InputElement type="text" placeholder="Enter your name" label="Your Name" onChange = {(e)=>setUser({...user, name: e.target.value})} />}
                 <InputElement type="text" placeholder="abc@example.com" label="Email" onChange = {(e)=>setUser({...user, email: e.target.value})}/>
-                <InputElement type="password" placeholder="123456" label= "Password" onChange = {(e)=>setUser({...user, password: e.target.value})}/> 
+                <InputElement type="password" placeholder="123456" label= "Password" onChange = {(e)=>setUser({...user, password: e.target.value})} onKeyDown={handleSubmit}/> 
                 <div className="mt-4">
                     <Button loading={loading} buttonText={type=="signup"?"Signup":"Login"} onClick = {type=="signup"?handleSignup:handleSignin} />   
                 </div>          

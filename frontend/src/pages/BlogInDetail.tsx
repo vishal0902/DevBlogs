@@ -6,12 +6,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { Avatar } from "../components/Avatar";
+import Dompurify from "dompurify"
 
 function BlogInDetail() {
   const id = useParams().id;
   // const {blog, loading} = useBlogInDetail(id)
 
   const blog = useRecoilValue(blogSelectorFamily(id));
+  const cleanContent =  Dompurify.sanitize(blog.content);
 
   return (
     <div className="">
@@ -20,7 +22,12 @@ function BlogInDetail() {
         <div className="sm:col-span-8 col-span-12">
           <div className="px-10 py-4 flex flex-col justify-center">
             <div className="sm:text-5xl text-3xl  font-bold">{blog.title}</div>
-            <div className="sm:text-xl text-lg  font-normal mt-4 mb-4">{blog.content}</div>
+            {/* <div className="sm:text-xl text-lg  font-normal mt-4 mb-4"><pre>{blog.content}</pre></div> */}
+            <div 
+              className="sm:text-xl text-lg font-normal mt-4 mb-4"
+              dangerouslySetInnerHTML={{ __html: cleanContent}} 
+            />
+
             <div className="flex justify-start">
                 <Likes blogId={id} />
 
@@ -58,7 +65,7 @@ function BlogInDetail() {
 
         <div className="text-4xl font-semibold my-3">Comments</div>
         <Comment blogId={id} />
-      </div>
+      </div>{blog.content}
     </div>
   );
 }
