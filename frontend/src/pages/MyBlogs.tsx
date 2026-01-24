@@ -3,8 +3,12 @@ import { Nav } from "../components/Nav";
 import { Link } from "react-router-dom";
 import {  useMyBlogs } from "../hooks";
 import Skeleton from "../components/Skeleton";
+import React from "react";
+import { Avatar } from "../components/Avatar";
+import { useRecoilValue } from "recoil";
+import { userNameState } from "../strore/atom/userNameState";
 
-export const MyBlogs = () => {
+export const MyBlogs = React.memo(() => {
   
   // const {user, blogs} = useRecoilValue(allBlogsSelector)
  const { blogs, loading} = useMyBlogs()
@@ -12,6 +16,7 @@ export const MyBlogs = () => {
 
 //  const [userData, setUserData] = useRecoilState(userDataAtom)
 //  setUserData({...user})
+  const userName = useRecoilValue(userNameState);
 
  if(loading) {
 
@@ -40,7 +45,7 @@ export const MyBlogs = () => {
           <BlogCard
             key={blog.id}
             id= {blog.id}
-            author={blog.author.name}
+            author={userName} 
             title={blog.title}
             content={blog.content}
             date={blog.createdAt}
@@ -49,7 +54,7 @@ export const MyBlogs = () => {
       })}
     </div>
   );
-};
+});
 
 type BlogCardType = {
   id: number;
@@ -59,7 +64,7 @@ type BlogCardType = {
   date: string;
 };
 
-export const BlogCard = ({ id, author, title, content, date }: BlogCardType) => {
+export const BlogCard = React.memo(({ id, author, title, content, date }: BlogCardType) => {
   return (
     <Link to={`/blog/${id}`}>
     <div className="flex justify-center">
@@ -83,26 +88,7 @@ export const BlogCard = ({ id, author, title, content, date }: BlogCardType) => 
     </div>
     </Link>
   );
-};
+});
 
-export const Avatar = ({ name, size }: { name: string; size?: string }) => {
-  if (size == "big") {
-    return (
-      <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-        <span className="font-medium text-gray-600 dark:text-gray-300">
-          {name[0]}
-        </span>
-      </div>
-    );
-  } else {
-    return (
-      <div className="relative inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-        <span className="font-medium text-gray-600 dark:text-gray-300">
-          {name[0]}
-        </span>
-      </div>
-    );
-  }
-};
 
 

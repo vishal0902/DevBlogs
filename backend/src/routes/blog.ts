@@ -10,17 +10,17 @@ const blogRouter = new Hono<{
     JWT_SECRET: string;
   },
   Variables: {
-    userId: string
+    userId: string;
   }
 }>();
 
 blogRouter.use('/*', async(c,next)=>{
     const token = c.req.header("authorization") || "";
     console.log(token)
-    const user = await verify(token, c.env.JWT_SECRET)
+    const user = await verify(token, c.env.JWT_SECRET, "HS256")
     console.log(user, c.env.JWT_SECRET)
     if(user){
-        c.set("userId", user.id)
+        c.set("userId", user.id as string)
         await next()
     } else{
         c.status(403)
@@ -84,7 +84,14 @@ blogRouter.get('/bulk', async(c)=>{
         datasourceUrl: c.env.DATABASE_URL,
       }).$extends(withAccelerate());
   
-    const user = await prisma.user.findUnique({
+    
+        const page = parseInt(c.req.query('page') || '1');
+        const limit = parseInt(c.req.query('limit') || '10');
+        const skip = (page - 1) * limit;
+
+    
+    
+      const user = await prisma.user.findUnique({
         where:{
             id: c.get("userId")
         },
@@ -95,6 +102,8 @@ blogRouter.get('/bulk', async(c)=>{
 
       
     const blogs = await prisma.blog.findMany({
+        skip: skip,
+        take: limit,
         select: {
             id: true,
             title: true,
@@ -105,7 +114,11 @@ blogRouter.get('/bulk', async(c)=>{
                     name: true
                 }
             }
+        },
+        orderBy: {
+            createdAt: "desc"
         }
+
     })
 
     return c.json({

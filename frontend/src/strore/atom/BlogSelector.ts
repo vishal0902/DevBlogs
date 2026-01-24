@@ -1,5 +1,6 @@
 import axios from "axios";
 import { atom, selectorFamily } from "recoil";
+import { BACKEND_URL } from "../../config";
 
 // export const  blogAtomFamily = atomFamily({
 //     key: "blogSelector",
@@ -21,8 +22,8 @@ import { atom, selectorFamily } from "recoil";
 
 export const blogSelectorFamily = selectorFamily({
     key: "blogSelectorFamily",
-    get: (blogId) => async ({}) => {
-        const response = await axios.get(`https://backend.vishal-sri0902.workers.dev/api/v1/blog/${String(blogId)}`,{
+    get: (blogId) => async () => {
+        const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${String(blogId)}`,{
             headers:{
                 Authorization: localStorage.getItem("jwt")
             }
@@ -35,14 +36,13 @@ export const blogSelectorFamily = selectorFamily({
 
 // export const allBlogsSelector = selector({
 //     key: "blogsSelector",
-//     get: async ({get}) => {
-//         const flag = get(flagAtom)
-//         const response = await axios.get(`https://backend.vishal-sri0902.workers.dev/api/v1/blog/bulk`,{
+//     get: () => async () => {
+//         const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`,{
 //             headers:{
-//                 Authorization: localStorage.getItem("jwt"),
+//                 Authorization: localStorage.getItem("jwt")
 //             }
 //         })
-//         return response.data
+//         return response.data.blogs
         
 //     }
 // })

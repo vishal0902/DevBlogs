@@ -1,9 +1,9 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { BACKEND_URL } from "../config";
-import { useRecoilState } from "recoil";
-import { userDataAtom } from "../strore/atom/BlogSelector";
+import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
+import { userNameState } from "../strore/atom/userNameState";
 
 export interface Blog {
     id: number
@@ -37,29 +37,39 @@ export const useBlogInDetail = (id: any) => {
         })
     }, [])
 
-    return {blog, loading}
+    return useMemo(() => ({blog, loading}), [blog, loading]);
 }
 
 
 
-export const useBlogs = () => {
+export const useBlogs = (setHasMore : any, page: any) => {
     
     const navigate = useNavigate()
 
-    const [blogs, setBlogs] = useState([]);
-    const [loading, setLoading] = useState(true)
-    const [, setUserData] = useRecoilState(userDataAtom)
+    const [blogs, setBlogs] = useState<Blog[]>([]);
+    const [loading, setLoading] = useState(false)
+    // const [, setUserData] = useRecoilState(userDataAtom)
+    const setUserName = useSetRecoilState(userNameState);
 
 
   
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
-            headers: { Authorization: localStorage.getItem("jwt") },
+        setLoading(true);
+        const token = localStorage.getItem("jwt");
+        console.log('Token: ',token);
+        const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk?page=${page}&limit=10`, {
+            headers: { Authorization: token },
+            withCredentials: false
           });
-          setBlogs(response.data.blogs);
+
+          if(response.data.blogs.length < 10) setHasMore(false);
+          console.log(response.data);
+          setBlogs(prevItems => {
+          return [...new Set([...prevItems, ...response.data.blogs])]; 
+          });
           setLoading(false)
-          setUserData(response.data.user.name)
+          setUserName(response.data.user.name)
       } catch (error) {
         navigate('/signin')
       }
@@ -67,9 +77,10 @@ export const useBlogs = () => {
   
     useEffect(() => {
       fetchBlogs();
-    }, []);
+    }, [page]);
   
-    return { blogs, loading };
+    return useMemo(() => ({blogs, loading}), [blogs, loading]);
+
   };
 
 
@@ -82,21 +93,24 @@ export const useBlogs = () => {
 
 
   
-    const fetchBlogs = async () => {
+    const fetchBlogs = useCallback(async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/api/v1/blog/getMyBlogs`, {
             headers: { Authorization: localStorage.getItem("jwt") },
+            withCredentials: false
           });
+          console.log(response.data.blogs);
           setBlogs(response.data.blogs);
           setLoading(false)
       } catch (error) {
         navigate('/signin')
       }
-    };
+    },[blogs]);
   
     useEffect(() => {
       fetchBlogs();
     }, []);
   
-    return { blogs, loading };
+        return useMemo(() => ({blogs, loading}), [blogs, loading]);
+
   };

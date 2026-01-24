@@ -1,15 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "../pages/Blogs";
 import { useRecoilValue } from "recoil";
-import { userDataAtom } from "../strore/atom/BlogSelector";
-import { useState } from "react";
+// import { userDataAtom } from "../strore/atom/BlogSelector";
+import React, { useState } from "react";
+import { userNameState } from "../strore/atom/userNameState";
+import {Avatar} from "./Avatar";
+// import { Avatar } from "./Avatar";
 
-export const Nav = () => {
-  const userName = useRecoilValue(userDataAtom);
+export const Nav = React.memo(() => {
+  const userName = useRecoilValue(userNameState);
+  console.log(userName)
+
   const navigate = useNavigate();
   const [menu, setMenu] = useState(false);
-
-  2;
   return (
     <div>
       <div className="grid grid-cols-1 w-full bg-gray-50">
@@ -95,4 +97,4 @@ export const Nav = () => {
       </div>
     </div>
   );
-};
+});

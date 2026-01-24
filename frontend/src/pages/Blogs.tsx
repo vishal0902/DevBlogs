@@ -4,28 +4,67 @@ import { Link } from "react-router-dom";
 import { useBlogs } from "../hooks";
 import Skeleton from "../components/Skeleton";
 
+import React, { useCallback, useRef, useState } from "react";
+import { Avatar } from "../components/Avatar";
+
+
+
+
 export const Blogs = () => {
   
-  // const {user, blogs} = useRecoilValue(allBlogsSelector)
- const { blogs, loading} = useBlogs()
 
-//  const [userData, setUserData] = useRecoilState(userDataAtom)
-//  setUserData({...user})
 
- if(loading) {
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+ 
+  const { blogs, loading} = useBlogs(setHasMore, page)
 
-    return (
-      <div>
-        <Nav  />
-        <Skeleton  blogPreview={true} />
-      </div>
-    )
- }
+  const observer = useRef<IntersectionObserver | null>(null);
 
+  const lastElementRef = useCallback((node:any)=>{
+    if(loading) return;
+
+    if(observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver(entries => {
+      if(entries[0].isIntersecting){
+        setPage(prevPage => prevPage + 1)
+      }
+    });
+
+    if(node) observer.current.observe(node);
+  },[blogs, hasMore])
+ 
+  // if(loading) {
+
+  //   return (
+  //     <div>
+  //       <Nav />
+  //       <Skeleton  blogPreview={true} />
+  //     </div>
+  //   )
+  // }
+
+ 
   return (
     <div>
-      <Nav />
-      {blogs.map((blog: any) => {
+      <Nav  />
+
+      {blogs.map((blog: any, index) => {
+        if(blogs.length == index + 1 && hasMore == true) {
+          return (
+            <BlogCard
+            key={blog.id}
+            id= {blog.id}
+            author={blog.author.name}
+            title={blog.title}
+            content={blog.content}
+            date={blog.createdAt}
+            lastRef={lastElementRef} 
+          />
+          )
+        }
+
         return (
           <BlogCard
             key={blog.id}
@@ -36,10 +75,11 @@ export const Blogs = () => {
             date={blog.createdAt}
           />
         );
-      })}
+      })} {loading && <Skeleton  blogPreview={true} />}
+      {!hasMore && <p style={{ textAlign: 'center' }}>No more data to load.</p>}
     </div>
   );
-};
+ }
 
 type BlogCardType = {
   id: number;
@@ -47,12 +87,13 @@ type BlogCardType = {
   title: string;
   content: string;
   date: string;
+  lastRef?: (node: HTMLDivElement | null) => void;
 };
 
-export const BlogCard = ({ id, author, title, content, date }: BlogCardType) => {
+export const BlogCard = React.memo(({ id, author, title, content, date, lastRef }: BlogCardType) => {
   return (
     <Link to={`/blog/${id}`}>
-    <div className="grid grid-cols-1 md:grid-cols-8 justify-center">
+    <div ref={lastRef} className="grid grid-cols-1 md:grid-cols-8 justify-center">
       <div className="md:flex hidden col-span-2"></div>
       
       <div className="md:col-span-4 max-w-full  p-6 bg-white border-b border-gray-200 ">
@@ -77,26 +118,10 @@ export const BlogCard = ({ id, author, title, content, date }: BlogCardType) => 
     </div>
     </Link>
   );
-};
+});
 
-export const Avatar = ({ name, size }: { name: string; size?: string }) => {
-  if (size == "big") {
-    return (
-      <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-        <span className="font-medium text-gray-600 dark:text-gray-300">
-          {name[0]}
-        </span>
-      </div>
-    );
-  } else {
-    return (
-      <div className="relative inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-        <span className="font-medium text-gray-600 dark:text-gray-300">
-          {name[0]}
-        </span>
-      </div>
-    );
-  }
-};
+
+
+
 
 

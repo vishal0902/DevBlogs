@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import { Nav } from "../components/Nav";
-import { Avatar } from "./Blogs";
 import { useRecoilValue } from "recoil";
 import { blogSelectorFamily } from "../strore/atom/BlogSelector";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { Avatar } from "../components/Avatar";
 
-export default function BlogInDetail() {
+function BlogInDetail() {
   const id = useParams().id;
   // const {blog, loading} = useBlogInDetail(id)
 
@@ -63,7 +63,7 @@ export default function BlogInDetail() {
   );
 }
 
-export const Likes = ({ blogId }: { blogId: String | undefined }) => {
+export const Likes = React.memo(({ blogId }: { blogId: string | undefined }) => {
   const [LikeCount, setLikeCount] = useState("");
   const [isLiked, setIsLiked] = useState("");
   const [trigger, setTrigger] = useState(false);
@@ -154,7 +154,7 @@ export const Likes = ({ blogId }: { blogId: String | undefined }) => {
       {/* <div  className="text-slate-500 text-base">Like</div> */}
     </div>
   );
-};
+});
 
 export const LikeButtonLoader = ({ isLiked }: { isLiked: string }) => {
   if (isLiked) {
@@ -190,7 +190,7 @@ export const LikeButtonLoader = ({ isLiked }: { isLiked: string }) => {
   );
 };
 
-export const Comment = ({ blogId }: { blogId: string | undefined }) => {
+export const Comment = React.memo(({ blogId }: { blogId: string | undefined }) => {
   const [content, setContent] = useState("");
   const [flag, setFlag] = useState(true);
   const [comments, setComments] = useState([]);
@@ -201,6 +201,7 @@ export const Comment = ({ blogId }: { blogId: string | undefined }) => {
         headers: {
           Authorization: localStorage.getItem("jwt"),
         },
+        withCredentials: false
       })
       .then((response) => setComments(response.data.comments));
   }, [flag]);
@@ -269,4 +270,6 @@ export const Comment = ({ blogId }: { blogId: string | undefined }) => {
       )}
     </div>
   );
-};
+});
+
+export default  React.memo(BlogInDetail);
