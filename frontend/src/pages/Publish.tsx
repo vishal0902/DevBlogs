@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Nav } from "../components/Nav";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { ButtonLoader } from "../components/ButtonLoader";
+import { Editor as TinyMCEEditor } from "tinymce";
 import { Editor } from "@tinymce/tinymce-react";
 
 
@@ -25,7 +26,7 @@ export const BlogForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("")
   const [loading, setLoading] = useState(false)
-  const editorRef = useState(null)[1]
+  const editorRef = useRef<TinyMCEEditor | null>(null)
 
     const navigate = useNavigate()
 
@@ -46,7 +47,7 @@ export const BlogForm = () => {
           <div className="max-w-lg block w-full">
             <Editor
               apiKey={import.meta.env.VITE_TINYMCE_API}
-              onInit={(evt, editor) => editorRef(editor)}
+              onInit={(_, editor) => editorRef.current = editor}
               onEditorChange={(newContent) => setContent(newContent)}
               init={{
                 menubar: false,

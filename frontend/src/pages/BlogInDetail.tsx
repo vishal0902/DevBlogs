@@ -65,7 +65,7 @@ function BlogInDetail() {
 
         <div className="text-4xl font-semibold my-3">Comments</div>
         <Comment blogId={id} />
-      </div>{blog.content}
+      </div>
     </div>
   );
 }
