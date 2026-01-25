@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import {  useMyBlogs } from "../hooks";
 import Skeleton from "../components/Skeleton";
 import React from "react";
-import { Avatar } from "../components/Avatar";
+// import { Avatar } from "../components/Avatar";
 import { useRecoilValue } from "recoil";
 import { userNameState } from "../strore/atom/userNameState";
+import { BlogCard } from "./Blogs";
 
 export const MyBlogs = React.memo(() => {
   
@@ -56,39 +57,39 @@ export const MyBlogs = React.memo(() => {
   );
 });
 
-type BlogCardType = {
-  id: number;
-  author: string;
-  title: string;
-  content: string;
-  date: string;
-};
+// type BlogCardType = {
+//   id: number;
+//   author: string;
+//   title: string;
+//   content: string;
+//   date: string;
+// };
 
-export const BlogCard = React.memo(({ id, author, title, content, date }: BlogCardType) => {
-  return (
-    <Link to={`/blog/${id}`}>
-    <div className="flex justify-center">
-      <div className=" max-w-lg p-6 bg-white border-b border-gray-200 ">
-        <div className="flex space-x-1 mb-2 min-w-[32rem] ">
-          <Avatar name={author} />
-          <div className="pl-2">{author}</div>
-          <div className="flex flex-col font-bold text-gray-400 justify-center">
-            &#xb7;
-          </div>
-          <div className="text-gray-400 ">{date.slice(0, 10)}</div>
-        </div>
-        <div className="text-2xl font-serif font-bold mb-2">{title.slice(0, 100)}</div>
-        <div className="font-sans">
-          {content.length > 100 ? content.slice(0, 100) + "..." : content}
-        </div>
-        <div className="mt-4">
-          {Math.ceil(content.length / 100)} minute(s) read
-        </div>
-      </div>
-    </div>
-    </Link>
-  );
-});
+// export const BlogCard = React.memo(({ id, author, title, content, date }: BlogCardType) => {
+//   return (
+//     <Link to={`/blog/${id}`}>
+//     <div className="flex justify-center">
+//       <div className=" max-w-lg p-6 bg-white border-b border-gray-200 ">
+//         <div className="flex space-x-1 mb-2 min-w-[32rem] ">
+//           <Avatar name={author} />
+//           <div className="pl-2">{author}</div>
+//           <div className="flex flex-col font-bold text-gray-400 justify-center">
+//             &#xb7;
+//           </div>
+//           <div className="text-gray-400 ">{date.slice(0, 10)}</div>
+//         </div>
+//         <div className="text-2xl font-serif font-bold mb-2">{title.slice(0, 100)}</div>
+//         <div className="font-sans">
+//           {content.length > 100 ? content.slice(0, 100) + "..." : content}
+//         </div>
+//         <div className="mt-4">
+//           {Math.ceil(content.length / 100)} minute(s) read
+//         </div>
+//       </div>
+//     </div>
+//     </Link>
+//   );
+// });
 
 
 

@@ -22,7 +22,8 @@ export const Nav = React.memo(() => {
                 navigate("/blogs");
               }}
               className="flex  justify-center text-2xl font-bold text-slate-900 pb-2.5 cursor-pointer">
-              <img src="/dev.png" width={100}/> <div className="flex flex-col justify-center ml-2"> DevBlogs.to</div>
+              <img src="/dev.png" width={60} height={60}/> 
+              <div className="md:flex hidden flex-col justify-center ml-2 bg-gradient-to-r bg-clip-text text-transparent from-gray-500 via-green-700 to-green-200"> DevBlogs.to</div>
             </div>
 
             <div className="flex flex-col justify-center space-x-4">

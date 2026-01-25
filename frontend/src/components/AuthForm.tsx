@@ -55,10 +55,10 @@ export default function AuthForm({type}: FormType) {
   const handleSignin = async () => {
     setLoading(true)
     try {
+      setUserName(String(user.name))
       const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, user);
       console.log(response.data.jwtToken)
       localStorage.setItem("jwt", response.data.jwtToken)
-      setUserName(String(user.name))
       console.log(String(user.name))
       navigate("/blogs")
       
