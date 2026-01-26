@@ -49,7 +49,8 @@ export const Landing = () => {
       <nav className="flex justify-between items-center px-6 md:px-12 py-6 border-b border-gray-300">
         <div className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition">
           <img src="/dev.png" alt="DevBlogs" width={80} />
-          <span className="text-2xl font-bold">DevBlogs.to</span>
+          <div className="md:flex hidden flex-col justify-center ml-2 bg-gradient-to-r bg-clip-text text-transparent from-gray-500 via-green-700 to-green-200"> DevBlogs.to</div>
+
         </div>
         <div className="flex space-x-4">
           <button
@@ -175,7 +176,7 @@ export const Landing = () => {
           <div className="flex justify-center">
             <div className="flex justify-center flex-col text-center mt-4">
               <h3 className="font-bold text-lg mb-2">DevBlogs.to</h3>
-              <p className="text-gray-600">The platform for developer stories . <a className="text-gray-900 drop-shadow-xl shadow-gray-100" target="_blank" href="https://github.com/vishal0902/DevBlogs/">Github</a></p>
+              <p className="text-gray-600">The platform for developer stories . <a className="text-gray-900 drop-shadow-xl shadow-gray-100 underline" target="_blank" href="https://github.com/vishal0902/DevBlogs/">Github</a></p>
             </div>
            
        
